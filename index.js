@@ -32,9 +32,13 @@ app.set('views', [
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 📌 ใช้ body-parser (รองรับ JSON และ Form Data)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload());
+app.use(express.json({ limit: "500mb" })); 
+app.use(express.urlencoded({ limit: "500mb", extended: true }));
+app.use(fileUpload({
+    limits: { fileSize: 500 * 1024 * 1024 }, // ✅ 500MB
+    useTempFiles: true, // ใช้ไฟล์ชั่วคราวช่วยจัดการไฟล์ใหญ่
+    tempFileDir: "/tmp/" // กำหนดโฟลเดอร์ชั่วคราว
+}));
 
 // 📌 Middleware กำหนดค่า session ใน res.locals
 app.use((req, res, next) => {
