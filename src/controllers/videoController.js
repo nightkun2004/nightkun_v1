@@ -36,7 +36,7 @@ const publishPribta = async (req, res) => {
     try {
         const { videoId, description, videoUrl, thumbnailUrl, visibility } = req.body;
 
-        if (!videoUrl || !description ) {
+        if (!videoUrl || !description) {
             return res.status(400).json({ error: "ข้อมูลไม่ครบถ้วน" });
         }
 
@@ -60,16 +60,28 @@ const publishPribta = async (req, res) => {
     }
 }
 
-// ดึงข้อมูลวิดีโอ
-// const getPribtas = async (req, res) => {
-//     try {
-        
+const refreshVideoToken = async (req, res) => {
+    try {
+        const { videoId } = req.body;
+        if (!videoId) {
+            return res.status(400).json({ error: "กรุณาระบุ videoId" });
+        }
 
+        // ✅ สร้างโทเค็นใหม่ และกำหนดวันหมดอายุใหม่
+        const newExpires = Math.floor(Date.now() / 1000) + 3600; // 1 ชั่วโมง
+        const newToken = jwt.sign({ videoId, exp: newExpires }, process.env.JWT_SECRET);
 
-//         res.render("watch", { video });
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
+        // ✅ ตอบกลับลิงก์ใหม่ให้กับ Client
+        res.json({
+            success: true,
+            newToken,
+            newExpires,
+            newUrl: `https://sv8.nightkun.com/api/v2/server/stream/${videoId}?tk=${newToken}&expires=${newExpires}`
+        });
 
-module.exports = { publishPribta };
+    } catch (error) {
+        console.error("Refresh Token Error:", error);
+        res.status(500).json({ error: "เกิดข้อผิดพลาดในการสร้างโทเค็นใหม่" });
+    }
+};
+module.exports = { publishPribta, refreshVideoToken };

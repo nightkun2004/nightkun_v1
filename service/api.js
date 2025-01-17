@@ -2,6 +2,7 @@
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken");
+const { refreshVideoToken } = require("../src/controllers/videoController")
 require("dotenv").config();
 
 
@@ -25,6 +26,8 @@ router.post("/auth/verify-token", (req, res) => {
         });
     });
 });
+
+router.post("/refresh-video-token", refreshVideoToken);
 
 module.exports =
     router
