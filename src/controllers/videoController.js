@@ -71,7 +71,7 @@ const refreshVideoToken = async (req, res) => {
         const newExpires = Math.floor(Date.now() / 1000) + 3600; // 1 ชั่วโมง
         const newToken = jwt.sign({ videoId, exp: newExpires }, process.env.JWT_SECRET);
 
-        // ✅ ตอบกลับลิงก์ใหม่ให้กับ Client
+        // ✅ ตอบกลับลิงก์ใหม่ให้กับ ServerVideo
         res.json({
             success: true,
             newToken,
@@ -84,4 +84,5 @@ const refreshVideoToken = async (req, res) => {
         res.status(500).json({ error: "เกิดข้อผิดพลาดในการสร้างโทเค็นใหม่" });
     }
 };
+
 module.exports = { publishPribta, refreshVideoToken };
