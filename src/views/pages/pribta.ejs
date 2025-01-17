@@ -1,0 +1,654 @@
+<section class="pribta h-screen w-full overflow-hidden relative bg-black">
+    <div id="videoContainer" class="pribta-section h-screen w-full overflow-y-auto snap-y snap-mandatory">
+
+        <% if (data_pribtas.length> 0) { %>
+            <% data_pribtas.forEach(item=> { %>
+                <div class="video-item h-full w-full flex items-center justify-center snap-start relative">
+                    <!-- ✅ ปรับ player ให้สูงเต็มหน้าจอ -->
+                    <div class="player w-full h-full absolute top-0 left-0">
+                        <div class="relative h-full">
+                            <video class="video w-full h-full" src="<%= item.videoUrl %>" loop
+                                data-srt="<%= item.subtitles.find(sub => sub.language === 'th')?.srtUrl || '' %>"></video>
+
+                            <div class="Watermark absolute top-5 right-5">
+                                <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 24 24" role="img"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <title>Bilibili icon</title>
+                                    <path
+                                        d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z" />
+                                </svg>
+                            </div>
+
+                            <div
+                                class="btn_lock-player absolute top-32 left-5 z-50 text-white text-2xl bg-black bg-opacity-50 p-3 rounded-full cursor-pointer">
+                                <i class="fa-solid fa-lock cursor-pointer" id="btn_lock-player"></i>
+                            </div>
+
+                            <!-- subtitle -->
+                             <div class="player-ass-subtitle">
+                                <div id="chronos-view-wrapper">
+                                    <canvas id="chronos_id" width="500" height="281" style="display: block; width: 750px; height: 422px;">
+                                        
+                                    </canvas>
+                                </div>
+                             </div>
+                            <div class="subtitle-srtfile" id="subtitle"></div>
+                            <div
+                                class="subtitle-selector_Contailner absolute bottom-20 rounded-lg  bg-black bg-opacity-50 z-50 right-5 hidden">
+                                <div class="subtitle-selector">
+                                    <div class="border-b-2 p-2">
+                                        <h2 class="text-white">เลือกคำบรรยาย</h2>
+                                    </div>
+                                    <div class="subtitle-selector_content">
+                                        <% item.subtitles.forEach(sub=> { %>
+                                            <p class="subtitle-option px-3 py-2 text-white cursor-pointer hover:bg-black hover:bg-opacity-50"
+                                                data-srt-url="<%= sub.srtUrl %>"> <!-- ✅ เพิ่ม data-srt-url -->
+                                                <% if (sub.language==='th' ) { %>
+                                                    ไทย
+                                                    <% } else if (sub.language==='en' ) { %>
+                                                        อังกฤษ
+                                                        <% } else {%>
+                                                            <%= sub.language %>
+                                                                <% } %>
+                                            </p>
+                                            <% }); %>
+
+                                                <!-- ✅ ปุ่มปิดคำบรรยาย -->
+                                                <p class="subtitle-option px-3 py-2 text-white cursor-pointer hover:bg-black hover:bg-opacity-50"
+                                                    data-srt-url="none">
+                                                    ปิด
+                                                </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- controls -->
+                            <div class="controls_player" id="controls_player">
+                                <div class="progress-area" id="progress-area">
+                                    <canvas class="bufferedBar"></canvas>
+                                    <div class="thunnaillBar"></div>
+                                    <div class="progress-bar">
+                                        <span></span>
+                                    </div>
+                                </div>
+
+                                <div class="left-controls">
+                                    <p class="icon" id="play-pause">
+                                        <i class='bx bx-play '></i>
+                                    </p>
+                                </div>
+                                <div class="right-controls">
+                                    <div class="duration">
+                                        <p id="current-time">00:00</p> /
+                                        <p id="total-time">00:00</p>
+                                    </div>
+                                    <p class="icon Btnsubtitleselector">
+                                        <i class='bx bxs-captions'></i>
+                                    </p>
+                                    <p class="icon Btn_fullscreen" title="กด F หรือ F11 เพื่อเต็มหน้าจอ">
+                                        <i class='bx bx-expand'></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ✅ ควบคุม UI (เล่น/หยุด) -->
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <button id="playPauseBtn" class="playPauseBtn hidden" aria-label="เล่นและหนุด"
+                            title="เล่นและหนุด">
+                            <div
+                                class="flex items-center text-white text-4xl bg-black bg-opacity-50 p-4  rounded-full ">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- ✅ ปรับตำแหน่งของคำอธิบายให้อยู่ด้านล่าง ไม่โดนวิดีโอล้น -->
+                    <div
+                        class="absolute bottom-28 left-5 text-white bg-black bg-opacity-50 p-2 rounded-lg w-[260px]  overflow-y-auto Right_DescriptionsBottomPlayer">
+                        <h2 class="text-lg font-bold">
+                            <a href="@<%= item.ownerId.username %>">
+                                @<%= item.ownerId.username %>
+                            </a>
+                        </h2>
+                        <p class="text-sm">
+                            <%= item.description %>
+                        </p>
+                    </div>
+
+                    <!-- ✅ ปรับปุ่มไอคอนให้ไม่ทับคำอธิบาย -->
+                    <div class="absolute bottom-1/4 right-5 flex flex-col space-y-4 text-white Lefts_iconsFuction">
+                        <div class="icon flex items-center flex-col">
+                            <button class="text-2xl mb-2">
+                                <img class="w-10 h-10 rounded-full border-white border-2"
+                                    src="<%= item.ownerId.profilepic %>" alt="ผู้สร้าง <%= item.ownerId.username %>">
+                            </button>
+                            <span class="text-sm cursor-pointer text-red-500">ติดตาม</span>
+                        </div>
+                        <div class="icon flex items-center flex-col">
+                            <button class="likeBtn text-2xl"><i class="fa-regular fa-heart"></i></button>
+                            <span class="text-sm likeCount">120K</span>
+                        </div>
+                        <div class="icon flex items-center flex-col">
+                            <button class="text-2xl toggle-comment">
+                                <i class="fa-solid fa-comment"></i>
+                            </button>
+                            <span class="text-sm">4.5K</span>
+                        </div>
+                        <div class="icon flex items-center flex-col">
+                            <button class="text-2xl"><i class="fa-solid fa-share"></i></button>
+                            <span class="text-sm">1.2K</span>
+                        </div>
+                    </div>
+
+                    <!-- ✅ ปรับ Comment Box ให้ไม่ล้น -->
+                    <div
+                        class="commentBox absolute bottom-0 right-0 w-80 h-[400px] bg-white text-black shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out">
+                        <div class="flex justify-between items-center p-4 border-b">
+                            <h3 class="text-lg font-semibold">ความคิดเห็น</h3>
+                            <button class="text-xl close-comment">✖</button>
+                        </div>
+                        <div class="p-4 space-y-3 overflow-y-auto max-h-full">
+                            <p>📢 ความคิดเห็น 1...</p>
+                            <p>💬 ความคิดเห็น 2...</p>
+                            <p>📝 เพิ่มความคิดเห็น...</p>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p class="text-white text-center py-10">ไม่มีวิดีโอ</p>
+                        <% } %>
+
+    </div>
+    <div class="absolute top-1/2 left-5 transform -translate-y-1/2 flex flex-col space-y-4 items-center">
+        <button id="prevVideoBtn" title="ก่อนหน้า" aria-label="ก่อนหน้า"
+            class="text-white text-3xl bg-black bg-opacity-50 p-3 rounded-full">
+            <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12 3C12.2652 3 12.5196 3.10536 12.7071 3.29289L19.7071 10.2929C20.0976 10.6834 20.0976 11.3166 19.7071 11.7071C19.3166 12.0976 18.6834 12.0976 18.2929 11.7071L13 6.41421V20C13 20.5523 12.5523 21 12 21C11.4477 21 11 20.5523 11 20V6.41421L5.70711 11.7071C5.31658 12.0976 4.68342 12.0976 4.29289 11.7071C3.90237 11.3166 3.90237 10.6834 4.29289 10.2929L11.2929 3.29289C11.4804 3.10536 11.7348 3 12 3Z"
+                    fill="#ffffff" />
+            </svg>
+        </button>
+        <button id="nextVideoBtn" title="ถัดไป" aria-label="ถัดไป"
+            class="text-white text-3xl bg-black bg-opacity-50 p-3 rounded-full">
+            <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12 3C12.5523 3 13 3.44772 13 4V17.5858L18.2929 12.2929C18.6834 11.9024 19.3166 11.9024 19.7071 12.2929C20.0976 12.6834 20.0976 13.3166 19.7071 13.7071L12.7071 20.7071C12.3166 21.0976 11.6834 21.0976 11.2929 20.7071L4.29289 13.7071C3.90237 13.3166 3.90237 12.6834 4.29289 12.2929C4.68342 11.9024 5.31658 11.9024 5.70711 12.2929L11 17.5858V4C11 3.44772 11.4477 3 12 3Z"
+                    fill="#ffffff" />
+            </svg>
+        </button>
+
+
+    </div>
+
+    <% if (!userID) {%>
+        <button id="openPopup"
+            class="openPopup login-btn absolute top-5 left-5 bg-blue-500 px-3 py-1 rounded-lg text-white">
+            เข้าสู่ระบบ
+        </button>
+        <% } %>
+
+            <button id="menu-toggle" title="ปิดเมนู" aria-label="ปิดเมนู"
+                class="menu-toggle login-btn absolute top-20 left-5 bg-gray-800 bg-opacity-75 px-3 py-2 rounded-full text-white shadow-lg transition-all hover:bg-gray-700">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M11.7071 4.29289C12.0976 4.68342 12.0976 5.31658 11.7071 5.70711L6.41421 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H6.41421L11.7071 18.2929C12.0976 18.6834 12.0976 19.3166 11.7071 19.7071C11.3166 20.0976 10.6834 20.0976 10.2929 19.7071L3.29289 12.7071C3.10536 12.5196 3 12.2652 3 12C3 11.7348 3.10536 11.4804 3.29289 11.2929L10.2929 4.29289C10.6834 3.90237 11.3166 3.90237 11.7071 4.29289Z"
+                        fill="white" />
+                </svg>
+            </button>
+
+</section>
+
+<style>
+    .video {
+        width: 100%;
+        height: 100%;
+    }
+
+    .commentBox {
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .commentBox.show {
+        transform: translateX(0);
+    }
+</style>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const videos = document.querySelectorAll(".video");
+        const playPauseButtons = document.querySelectorAll(".playPauseBtn");
+        const Btn_Fullscreens = document.querySelectorAll(".Btn_fullscreen");
+        const subtitleCards = document.querySelectorAll(".subtitle-selector_Contailner");
+        const btnSubtitles = document.querySelectorAll(".Btnsubtitleselector");
+        const progressArea = document.getElementById("progress-area");
+        const bufferedBar = document.querySelector(".bufferedBar");
+        const progress_Bar = document.querySelector(".progress-bar");
+        const currentTimeElem = document.getElementById('current-time');
+        const totalTimeElem = document.getElementById('total-time');
+        const likeButtons = document.querySelectorAll(".likeBtn");
+        const videoItems = document.querySelectorAll(".video-item");
+
+        let currentVideo = null;
+        let currentIndex = 0; // ติดตามวิดีโอปัจจุบัน
+
+        function scrollToVideo(index) {
+            if (index >= 0 && index < videoItems.length) {
+                videoItems[index].scrollIntoView({ behavior: "smooth" });
+                currentIndex = index;
+            }
+        }
+
+        function playVideo(video) {
+            video.volume = 0.2; // ✅ ตั้งค่าเสียงเริ่มต้นที่ 10%
+            video.play();
+            const playPauseBtn = video.closest('.video-item').querySelector(".playPauseBtn");
+            if (playPauseBtn) playPauseBtn.classList.add("hidden");
+        }
+
+        function pauseVideo(video) {
+            video.pause();
+            const playPauseBtn = video.closest('.video-item').querySelector(".playPauseBtn");
+            if (playPauseBtn) playPauseBtn.classList.remove("hidden");
+        }
+
+        function setTimelinePosition(e, video, progressBar, currentTimeElem) {
+            let progressWidth = e.currentTarget.clientWidth;
+            let clickOffsetX = e.offsetX;
+            let videoDuration = video.duration;
+            video.currentTime = (clickOffsetX / progressWidth) * videoDuration;
+            updateProgress(video, progressBar, currentTimeElem);
+        }
+
+        function updateProgress(video, progressBar, currentTimeElem) {
+            let progressWidth = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = `${progressWidth}%`;
+            let currentMin = Math.floor(video.currentTime / 60);
+            let currentSec = Math.floor(video.currentTime % 60);
+            currentTimeElem.textContent = `${currentMin}:${currentSec < 10 ? "0" + currentSec : currentSec}`;
+        }
+
+        videoItems.forEach(item => {
+            const video = item.querySelector(".video");
+            const playPauseBtn = item.querySelector(".playPauseBtn");
+            const progressArea = item.querySelector(".progress-area");
+            const progressBar = item.querySelector(".progress-bar");
+            const currentTimeElem = item.querySelector("#current-time");
+            const totalTimeElem = item.querySelector("#total-time");
+
+            video.addEventListener("click", () => {
+                if (video.paused) {
+                    playVideo(video);
+                } else {
+                    pauseVideo(video);
+                }
+            });
+
+            if (playPauseBtn) {
+                playPauseBtn.addEventListener("click", () => {
+                    if (video.paused) {
+                        playVideo(video);
+                    } else {
+                        pauseVideo(video);
+                    }
+                });
+            }
+
+            video.addEventListener("timeupdate", () => {
+                updateProgress(video, progressBar, currentTimeElem);
+            });
+
+            progressArea.addEventListener("pointerdown", (e) => {
+                setTimelinePosition(e, video, progressBar, currentTimeElem);
+                // progressArea.addEventListener("pointermove", (event) => setTimelinePosition(event, video, progressBar, currentTimeElem));
+                // progressArea.addEventListener("pointerup", () => {
+                //     progressArea.removeEventListener("pointermove", (event) => setTimelinePosition(event, video, progressBar, currentTimeElem));
+                // });
+            });
+
+            video.addEventListener("loadedmetadata", () => {
+                let totalMin = Math.floor(video.duration / 60);
+                let totalSec = Math.floor(video.duration % 60);
+                totalTimeElem.textContent = `${totalMin}:${totalSec < 10 ? '0' + totalSec : totalSec}`;
+            });
+        });
+
+        // event listener for updating buffered progress bar
+        videos.forEach((video) => {
+            video.addEventListener("progress", () => {
+                drawProgress(bufferedBar, video.buffered, video.duration);
+            });
+        });
+
+        // Blol url
+        videos.forEach(async (video) => {
+            const videoUrl = video.getAttribute("src");
+
+            if (videoUrl) {
+                try {
+                    const response = await fetch(videoUrl); // ดึงข้อมูลวิดีโอจาก URL
+                    const blob = await response.blob(); // แปลงเป็น Blob
+                    const blobUrl = URL.createObjectURL(blob); // สร้าง Blob URL
+
+                    video.src = blobUrl; // กำหนดให้ <video>
+                } catch (error) {
+                    console.error("Error loading video:", error);
+                }
+            }
+        });
+
+
+        // function to draw buffered progress
+        function drawProgress(canvas, buffered, duration) {
+            let context = canvas.getContext('2d');
+            let width = canvas.width;
+            let height = canvas.height;
+            context.clearRect(0, 0, width, height);
+            for (let i = 0; i < buffered.length; i++) {
+                let start = buffered.start(i) / duration * width;
+                let end = buffered.end(i) / duration * width;
+                context.fillStyle = "#ffffffe6";
+                context.fillRect(start, 0, end - start, height);
+            }
+        }
+
+        videos.forEach((video, index) => {
+            const Btn_Fullscreen = Btn_Fullscreens[index];
+
+            if (Btn_Fullscreen) {
+                Btn_Fullscreen.addEventListener("click", (event) => {
+                    event.stopPropagation(); // ป้องกันการกระตุ้น event อื่นที่ซ้อนกัน
+                    toggleFullScreen(video);
+                });
+            }
+        });
+
+        videos.forEach((video, index) => {
+            const subtitleCard = subtitleCards[index];
+            const btnSubtitle = btnSubtitles[index]; // ปุ่มสำหรับเปิด/ปิดซับ
+
+            if (subtitleCard && btnSubtitle) {
+                btnSubtitle.addEventListener("click", (event) => {
+                    event.stopPropagation(); // ป้องกันไม่ให้ event ส่งผลกระทบถึง parent
+                    subtitleCard.classList.toggle("hidden"); // สลับคลาสซ่อน/แสดง
+                });
+            }
+        });
+
+        document.querySelectorAll(".btn_lock-player").forEach((btnLockPlayer, index) => {
+            const videoItem = btnLockPlayer.closest(".video-item");
+            const playerControl = videoItem.querySelector(".controls_player");
+            const Lefts_iconsFuction = videoItem.querySelector(".Lefts_iconsFuction");
+            const Right_DescriptionsBottomPlayer = videoItem.querySelector(".Right_DescriptionsBottomPlayer");
+            let isControlsHidden = false; // สถานะซ่อน/แสดงของวิดีโอนี้
+
+            btnLockPlayer.addEventListener("click", () => {
+                isControlsHidden = !isControlsHidden; // เปลี่ยนสถานะ
+                playerControl.classList.toggle("hidden", isControlsHidden);
+                Lefts_iconsFuction.classList.toggle("hidden", isControlsHidden);
+                Right_DescriptionsBottomPlayer.classList.toggle("hidden", isControlsHidden);
+
+                // เปลี่ยนไอคอน 🔓/🔒
+                const icon = btnLockPlayer.querySelector("i");
+                if (isControlsHidden) {
+                    icon.classList.remove("fa-lock");
+                    icon.classList.add("fa-lock-open");
+                } else {
+                    icon.classList.remove("fa-lock-open");
+                    icon.classList.add("fa-lock");
+                }
+            });
+        });
+
+
+        videos.forEach((video, index) => {
+            video.volume = 0.1; // ✅ ตั้งค่าเสียงเริ่มต้นที่ 10%
+            const playPauseBtn = playPauseButtons[index];
+            const likeBtn = likeButtons[index];
+
+            // ✅ คลิกที่วิดีโอเพื่อเล่น/หยุด
+            video.addEventListener("click", () => {
+                if (video.paused) {
+                    playVideo(video);
+                } else {
+                    pauseVideo(video);
+                }
+            });
+
+            // ✅ คลิกปุ่ม Play/Pause
+            if (playPauseBtn) {
+                playPauseBtn.addEventListener("click", () => {
+                    if (video.paused) {
+                        playVideo(video);
+                    } else {
+                        pauseVideo(video);
+                    }
+                });
+            }
+
+            // ✅ ปุ่มไลค์
+            likeBtn.addEventListener("click", () => {
+                likeBtn.classList.toggle("text-red-500");
+            });
+
+            // ✅ แสดงปุ่ม Play/Pause เมื่อวิดีโอหยุด
+            video.addEventListener("pause", () => {
+                if (playPauseBtn) playPauseBtn.classList.remove("hidden");
+            });
+
+            video.addEventListener("play", () => {
+                if (playPauseBtn) playPauseBtn.classList.add("hidden");
+            });
+        });
+
+        // ✅ โหลดซับเริ่มต้นเมื่อเปิดหน้า
+        videos.forEach(video => {
+            const srtUrl = video.getAttribute("data-srt");
+            const subtitleContainer = video.closest(".video-item").querySelector(".subtitle-srtfile");
+
+            if (srtUrl && subtitleContainer) {
+                loadNewSubtitles(video, srtUrl, subtitleContainer);
+            } else {
+                subtitleContainer.style.display = "none"; // ✅ ซ่อนถ้าไม่มีซับ
+            }
+        });
+
+        // ✅ ฟังก์ชันเลือกคำบรรยาย
+        document.querySelectorAll(".subtitle-selector").forEach((selector, index) => {
+            const video = videos[index];
+            if (!video) return;
+
+            selector.querySelectorAll(".subtitle-option").forEach(option => {
+                option.addEventListener("click", () => {
+                    const newSubtitleUrl = option.getAttribute("data-srt-url");
+                    const subtitleContainer = video.closest(".video-item").querySelector(".subtitle-srtfile");
+
+                    console.log("เลือกซับ:", newSubtitleUrl); // ✅ ตรวจสอบค่าซับที่เลือก
+
+                    // ✅ ลบคลาส active จากตัวเลือกทั้งหมดก่อน
+                    selector.querySelectorAll(".subtitle-option").forEach(opt => opt.classList.remove("active"));
+
+                    if (newSubtitleUrl === "none") {
+                        // ✅ ปิดคำบรรยาย
+                        video.removeAttribute("data-srt");
+                        subtitleContainer.style.display = "none";
+                        subtitleContainer.innerHTML = ""; // ✅ ล้างซับออก
+                        console.log("คำบรรยายถูกปิด");
+                    } else if (newSubtitleUrl) {
+                        // ✅ เปลี่ยนคำบรรยาย
+                        video.setAttribute("data-srt", newSubtitleUrl);
+                        subtitleContainer.style.display = "flex"; // ✅ แสดง container  
+                        loadNewSubtitles(video, newSubtitleUrl, subtitleContainer);
+                        console.log("กำลังโหลดซับใหม่:", newSubtitleUrl);
+                    }
+
+                    // ✅ เพิ่มคลาส active ให้ตัวที่เลือก
+                    option.classList.add("active");
+                });
+            });
+        });
+
+        // ✅ ฟังก์ชันแปลง SRT เป็น JSON
+        function parseSRT(data) {
+            return data.split(/\n\s*\n/).map(block => {
+                const lines = block.split("\n");
+                if (lines.length >= 3) {
+                    const time = lines[1].split(" --> ");
+                    return {
+                        start: timeToSeconds(time[0]),
+                        end: timeToSeconds(time[1]),
+                        text: lines.slice(2).join("<br>"),
+                    };
+                }
+                return null;
+            }).filter(Boolean);
+        }
+
+        // ✅ แปลงเวลาจาก "00:00:00,000" เป็นวินาที
+        function timeToSeconds(time) {
+            const parts = time.split(":");
+            const secParts = parts[2].split(",");
+            return (parseInt(parts[0]) * 3600) + (parseInt(parts[1]) * 60) + parseInt(secParts[0]) + (parseInt(secParts[1]) / 1000);
+        }
+
+        // ✅ ฟังก์ชันอัปเดตซับ
+        function updateSubtitles(video, subtitles, subtitleContainer) {
+            video.addEventListener("timeupdate", () => {
+                const currentTime = video.currentTime;
+                const subtitle = subtitles.find(sub => currentTime >= sub.start && currentTime <= sub.end);
+                subtitleContainer.innerHTML = subtitle ? `<span>${subtitle.text}</span>` : "";
+            });
+        }
+
+        // ✅ ฟังก์ชันโหลดซับใหม่
+        function loadNewSubtitles(video, srtUrl, subtitleContainer) {
+            fetch(srtUrl)
+                .then(response => response.text())
+                .then(srtText => {
+                    const subtitles = parseSRT(srtText);
+                    if (subtitles.length > 0) {
+                        subtitleContainer.style.display = "flex"; // ✅ แสดง container
+                        subtitleContainer.innerHTML = ""; // ✅ รีเซ็ตก่อนโหลดใหม่
+
+                        // ✅ ลบ event ก่อนเพิ่มใหม่ ป้องกันซ้ำซ้อน
+                        video.removeEventListener("timeupdate", video.updateSubtitleEvent);
+
+                        // ✅ สร้างฟังก์ชัน event ใหม่
+                        video.updateSubtitleEvent = () => {
+                            const currentTime = video.currentTime;
+                            const subtitle = subtitles.find(sub => currentTime >= sub.start && currentTime <= sub.end);
+                            subtitleContainer.innerHTML = subtitle ? `<span>${subtitle.text}</span>` : "";
+                        };
+
+                        // ✅ เพิ่ม event ใหม่
+                        video.addEventListener("timeupdate", video.updateSubtitleEvent);
+
+                        console.log("ซับถูกโหลดสำเร็จ:", subtitles.length, "บรรทัด");
+                    } else {
+                        subtitleContainer.style.display = "none"; // ✅ ซ่อนถ้าไม่มีซับ
+                        console.log("ไม่มีคำบรรยายในไฟล์นี้");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error loading subtitles:", error);
+                    subtitleContainer.style.display = "none"; // ✅ ซ่อนถ้าโหลดไฟล์ไม่ได้
+                });
+        }
+
+
+        // ✅ ป้องกันการเล่นวิดีโอพร้อมกันหลายตัว
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    playVideo(entry.target); // เล่นวิดีโออัตโนมัติ
+                } else {
+                    pauseVideo(entry.target); // หยุดวิดีโอเมื่อออกจากจอ
+                }
+            });
+        }, { threshold: 0.5 });
+
+        videos.forEach(video => observer.observe(video));
+
+        // ✅ จัดการปุ่มคอมเมนต์
+        document.querySelectorAll('.toggle-comment').forEach(button => {
+            button.addEventListener("click", function () {
+                this.closest('.video-item').querySelector('.commentBox').classList.toggle("show");
+            });
+        });
+
+        document.querySelectorAll('.close-comment').forEach(button => {
+            button.addEventListener("click", function () {
+                this.closest('.commentBox').classList.remove("show");
+            });
+        });
+
+        // ✅ ปุ่มเลื่อนขึ้น/ลง
+        document.getElementById("prevVideoBtn").addEventListener("click", () => {
+            if (currentIndex > 0) {
+                scrollToVideo(currentIndex - 1);
+            }
+        });
+
+        document.getElementById("nextVideoBtn").addEventListener("click", () => {
+            if (currentIndex < videoItems.length - 1) {
+                scrollToVideo(currentIndex + 1);
+            }
+        });
+
+        // ✅ ตรวจจับการเลื่อนเมาส์
+        window.addEventListener("wheel", (event) => {
+            if (event.deltaY > 0 && currentIndex < videoItems.length - 1) {
+                scrollToVideo(currentIndex + 1);
+            } else if (event.deltaY < 0 && currentIndex > 0) {
+                scrollToVideo(currentIndex - 1);
+            }
+        });
+
+
+        // ✅ กด Spacebar เพื่อเล่น/หยุดเฉพาะวิดีโอปัจจุบัน
+        document.addEventListener("keydown", (event) => {
+            const currentVideo = videoItems[currentIndex].querySelector(".video");
+
+            if (event.code === "Space") {
+                event.preventDefault();
+                if (currentVideo.paused) {
+                    playVideo(currentVideo);
+                } else {
+                    pauseVideo(currentVideo);
+                }
+            } else if (event.key === "ArrowDown") {
+                // ⬇️ ลูกศรลง
+                if (currentIndex < videoItems.length - 1) {
+                    scrollToVideo(currentIndex + 1);
+                }
+            } else if (event.key === "ArrowUp") {
+                // ⬆️ ลูกศรขึ้น
+                if (currentIndex > 0) {
+                    scrollToVideo(currentIndex - 1);
+                }
+            } else if (event.key === "f" || event.key === "F") {
+                // ✅ กด F เพื่อเข้าสู่ Fullscreen
+                toggleFullScreen();
+            }
+        });
+
+        // ✅ ฟังก์ชัน Fullscreen
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+    });
+
+
+</script>

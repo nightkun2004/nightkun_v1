@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+body {
+    font-family: "Kanit", sans-serif;
+}
+
+.animate-slideIn {
+    animation: slideIn 0.3s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/* ปรับแต่ง scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    /* ความกว้างของ scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* สีพื้นหลังของ track */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ffc800;
+    /* สีของ thumb */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    /* สีเมื่อ hover */
+}
+
+.tab-btn {
+    position: relative;
+    width: 50%;
+    text-align: center;
+    padding-bottom: 8px;
+}
+
+.active {
+    color: #3B82F6;
+    /* text-blue-500 */
+}
+
+
+.pribta-section::-webkit-scrollbar {
+    display: none;
+}
+
+.subtitle-srtfile {
+    position: absolute;
+    bottom: 8%;
+    /* ปรับตำแหน่งให้อยู่ด้านล่าง */
+    left: 50%;
+    transform: translateX(-50%);
+    /* จัดกึ่งกลาง */
+    width: 90%;
+    /* ให้ซับไตเติ้ลไม่กว้างเกินไป */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: clamp(14px, 3vw, 28px);
+    /* ปรับขนาดตามหน้าจอ */
+    font-weight: bold;
+    user-select: none;
+}
+
+
+.subtitle-option {
+    cursor: pointer;
+    padding: 8px 12px;
+    transition: background 0.3s;
+}
+
+.subtitle-option:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.subtitle-option.active {
+    background: #007bff;
+    /* ✅ สีฟ้า */
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+
+.subtitle-srtfile span {
+    text-align: center;
+    /* background-color: rgba(0, 0, 0, 0.6); */
+    /* เพิ่มพื้นหลังดำใส */
+    border-radius: 8px;
+    font-size: clamp(16px, 3vw, 32px);
+    font-family: Arial, Helvetica, sans-serif;
+    /* ปรับขนาดแบบ responsive */
+    line-height: 1.4;
+    white-space: normal;
+    cursor: move;
+    padding: 4px 8px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    border-radius: 6px;
+    line-height: normal;
+    word-wrap: break-word;
+    /* ✅ เส้นขอบรอบตัวอักษร */
+    /* -webkit-text-stroke: 1px black; */
+    /* ✅ เงาให้ตัวหนังสืออ่านง่ายขึ้น */
+    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    font-weight: 700;
+}
+
+/* Player controls  */
+.controls_player {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    z-index: 20;
+    opacity: 1;
+    transition: opacity 0.5s, height 0.5s;
+}
+
+.controls_player .progress-area {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.96);
+    box-sizing: border-box;
+}
+
+.controls_player .thunnaillBar {
+    width: 100%;
+    height: 2px;
+    margin: auto;
+    background: #f0f0f063;
+    cursor: pointer;
+    position: absolute;
+    z-index: 10;
+}
+
+.controls_player .progress-thumbnail {
+    width: 100%;
+    height: 2px;
+    margin: auto;
+    background: #5d5d5d;
+    cursor: pointer;
+    position: relative;
+}
+
+
+.controls_player .progress-area .progress-bar {
+    position: relative;
+    width: 0%;
+    background: rgb(255, 255, 255);
+    height: inherit;
+    border-radius: inherit;
+    cursor: pointer;
+}
+
+.controls_player .progress-area .progress-bar::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgb(255, 255, 255);
+}
+
+.controls_player .progress-area .bufferedBar {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 100%;
+    height: inherit;
+}
+
+.controls_player .left-controls,
+.right-controls,
+.center-controls,
+.right-controls,
+.duration,
+.volume {
+    display: flex;
+    align-items: center;
+}
+
+.duration p {
+    margin: 5px;
+    font-size: 19px;
+}
+
+
+/* .controls_player .right-controls .Subtitles,
+.controls_player .right-controls .quality{
+    margin: 5px;
+    font-size: 15px;
+    cursor: pointer;
+} */
+
+.controls_player .left-controls .icon,
+.controls_player .right-controls .icon {
+    margin: 5px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+
+/* ✅ ปรับสำหรับหน้าจอมือถือ */
+@media screen and (max-width: 768px) {
+    .subtitle-srtfile {
+        bottom: 5%;
+        width: 95%;
+    }
+
+    .subtitle-srtfile span {
+        font-size: clamp(14px, 4vw, 24px);
+        padding: 4px 10px;
+    }
+}

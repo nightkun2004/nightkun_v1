@@ -1,0 +1,28 @@
+<section class="ss-1-error-404">
+    <div class="flex justify-center items-center h-screen max-w-6xl mx-auto w-full px-4">
+        <div class="bg-white p-8 rounded-lg w-full flex flex-col items-center">
+            <div class="text-center">
+                <!-- Error Title -->
+                <h1 class="text-6xl font-bold text-red-600">404</h1>
+                <p class="text-2xl mt-4 text-gray-600">ขออภัย! ไม่พบหน้าที่คุณเรียกหรือหน้านี้อาจโดนลบแล้ว !</p>
+            </div>
+
+            <!-- Error Details -->
+            <div class="mt-6 text-gray-800">
+                <p class="text-lg">รายละเอียดข้อผิดพลาด: <strong class="font-semibold text-gray-900">
+                    <%= error.message %>
+                </strong></p>
+            </div>
+
+            <!-- Graphic Character -->
+            <div class="mt-8">
+                <img src="/path/to/your-character-image.png" alt="Character" class="w-1/2 mx-auto"/>
+            </div>
+
+            <!-- Back to Home Button -->
+            <a href="/" class="mt-6 inline-block bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-300 text-lg font-semibold">
+                กลับสู่หน้าหลัก
+            </a>
+        </div>
+    </div>
+</section>

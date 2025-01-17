@@ -1,0 +1,71 @@
+<!-- 🔹 Popup (ซ่อนอยู่เริ่มต้น) -->
+<div id="popup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
+    <div class="bg-white shadow-lg rounded-lg w-96 p-6 relative">
+        <h3 class="text-center mb-10 text-sm">ดำเนินต่อด้วยการเข้าสู่ระบบหรือสมัครสมาชิก</h3>
+        <!-- ปุ่มปิด Popup -->
+        <button id="closePopup" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl">
+            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M20.7457 3.32851C20.3552 2.93798 19.722 2.93798 19.3315 3.32851L12.0371 10.6229L4.74275 3.32851C4.35223 2.93798 3.71906 2.93798 3.32854 3.32851C2.93801 3.71903 2.93801 4.3522 3.32854 4.74272L10.6229 12.0371L3.32856 19.3314C2.93803 19.722 2.93803 20.3551 3.32856 20.7457C3.71908 21.1362 4.35225 21.1362 4.74277 20.7457L12.0371 13.4513L19.3315 20.7457C19.722 21.1362 20.3552 21.1362 20.7457 20.7457C21.1362 20.3551 21.1362 19.722 20.7457 19.3315L13.4513 12.0371L20.7457 4.74272C21.1362 4.3522 21.1362 3.71903 20.7457 3.32851Z"
+                    fill="#0F0F0F" />
+            </svg>
+        </button>
+
+        <!-- 🔹 Tab Menu -->
+        <div class="relative flex justify-around border-b">
+            <button id="loginTab" class="tab-btn text-gray-600 pb-2 focus:outline-none active">เข้าสู่ระบบ</button>
+            <button id="registerTab" class="tab-btn text-gray-600 pb-2 focus:outline-none">สมัครสมาชิก</button>
+
+            <!-- 🔹 Indicator เส้นขีดเลื่อน -->
+            <div id="tabIndicator"
+                class="absolute bottom-0 left-0 w-1/2 h-1 rounded-lg bg-blue-500 transition-transform duration-300 ease-in-out">
+            </div>
+        </div>
+
+
+        <!-- 🔹 Login Form (เริ่มต้นแสดง) -->
+        <div id="loginForm" class="form-content mt-4">
+            <form id="loginFormElement">
+                <div id="loginError" class="text-red-500 text-sm hidden mb-2 text-center"></div> <!-- 🔹 แสดงข้อผิดพลาด -->
+                <div id="registersuccess" class="text-green-500 text-sm hidden mb-2 text-center"></div>
+                <label class="block text-gray-700">อีเมล</label>
+                <input type="email" name="email"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-0 focus:outline-none outline-none">
+
+                <label class="block mt-3 text-gray-700">รหัสผ่าน</label>
+                <input type="password" name="password"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-0 focus:outline-none outline-none">
+
+                <button type="submit"
+                    class="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">เข้าสู่ระบบ</button>
+            </form>
+        </div>
+
+        <!-- 🔹 Register Form (เริ่มต้นซ่อน) -->
+        <div id="registerForm" class="form-content mt-4 hidden">
+            <form id="registerFormElement">
+                <div id="registerError" class="text-red-500 text-sm hidden mb-2"></div>
+
+
+                <label class="block text-gray-700">ชื่อผู้ใช้</label>
+                <input type="text" name="username"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-0 focus:outline-none outline-none" >
+
+                <label class="block mt-3 text-gray-700">อีเมล</label>
+                <input type="email" name="email"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-0 focus:outline-none outline-none" >
+
+                <label class="block mt-3 text-gray-700">รหัสผ่าน</label>
+                <input type="password" name="password"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-0 focus:outline-none outline-none" >
+
+                <label class="block mt-3 text-gray-700">รหัสผ่านยืนยันอีกครั้ง</label>
+                <input type="password" name="confirmPassword"
+                    class="w-full px-4 py-2 border rounded-lg focus:ring-0 focus:outline-none outline-none" >
+
+                <button type="submit"
+                    class="mt-4 w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">สมัครสมาชิก</button>
+            </form>
+        </div>
+    </div>
+</div>

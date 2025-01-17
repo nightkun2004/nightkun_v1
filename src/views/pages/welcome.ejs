@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nightkun</title>
+    <meta name="description" content="ขอต้อนรับสู่เว็บของผมเอง เว็บนี้จะมีกิจกรรมอื่นและเนื้อหาวีดีโอที่อยู่บน YouTube จะมาลงที่นี่ด้วยครับ ฝากติดตามด้วยนะครับ ">
+    <meta name="keywords" content="Nightkun, nightkun, เว็บ, แจกอั่งเปา, truemoney, wallet, 2024, เนื้อหาYT">
+    <link rel="shortcut icon" href="/profilehome.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <%- include('../component/header') %>
+    <%- include('../component/sidebar') %>
+    <div id="layout-content" class="lg:ml-64 pt-16 p-4 transition-all">
+        <h2 class="text-3xl font-semibold mb-6">วิดีโอล่าสุด</h2>
+        <div class="flex items-center justify-center flex-col h-full">
+            <ul class="grid grid-cols-2 gap-5">
+                <li class="bg-white rounded-lg transition-transform duration-300 hover:scale-110 hover:bg-gray-100">
+                    <img src="/profilehome.jpg" alt="icon home" class="rounded-full w-20 h-20 object-contain">
+                </li>
+                <li class="bg-white rounded-lg transition-transform duration-300 hover:scale-110 hover:bg-gray-100">
+                    <img src="/tw_logo.png" alt="icon Twitter" class="rounded-full w-20 h-20">
+                </li>
+                <li
+                    class="bg-white rounded-lg w-20 h-20 flex justify-center items-center transition-transform duration-300 hover:scale-110 hover:bg-gray-100">
+                    <a href="https://www.youtube.com/@nightkun04" target="_blank">
+                        <img src="/yt.png" alt="YouTube" class="rounded-full w-12 object-contain">
+                    </a>
+                </li>
+                <li
+                    class="bg-white rounded-lg w-20 h-20 flex justify-center items-center transition-transform duration-300 hover:scale-110 hover:bg-gray-100">
+                    <a href="https://web.facebook.com/nightkun.net" target="_blank">
+                        <img src="/fb.png" alt="Facebook" class="rounded-full w-12 object-contain">
+                    </a>
+                </li>
+            </ul>
+
+
+            <div class="text-center mt-3 mb-6">
+                <h3 class="text-3xl font-normal text-center mb-6 animate-pulse">ขอต้อนรับสู่เว็บ
+                    <strong>Nightkun</strong></h3>
+            </div>
+
+
+            <div class="flex justify-center items-center flex-col">
+                <a href="/redeem/code"
+                    class="bg-black rounded-full p-3 text-white w-[250px] text-center transition-colors duration-300 hover:bg-red-600">กรองโค้ดรับอั่งเปา</a>
+            </div>
+            <p class="text-center text-gray-700">
+                อ่านนโยบายหรือประวัติของเรา
+                <a href="/bio" class="text-blue-500 hover:underline font-semibold">ประวัติ</a>
+            </p>
+        </div>
+    </div>
+
+    <%- include('../component/popupLogin') %>
+    <script src="/js/popup.js" defer></script>
+    <script>
+        const toggleMenuButton = document.getElementById('toggleMenu');
+        const sidebar = document.getElementById('sidebar');
+        const layoutContent = document.getElementById('layout-content');
+      
+        toggleMenuButton.addEventListener('click', () => {
+          sidebar.classList.toggle('-translate-x-full');
+          layoutContent.classList.toggle('lg:ml-0');
+        });
+        // เปิด/ปิดเมนูโปรไฟล์เมื่อคลิกที่ไอคอนโปรไฟล์
+document.getElementById("profileButton").addEventListener("click", function () {
+    const profileMenu = document.getElementById("profileMenu");
+    profileMenu.classList.toggle("hidden");
+});
+
+// ปิดเมนูโปรไฟล์เมื่อคลิกนอกเมนู
+window.addEventListener("click", function (event) {
+    const profileMenu = document.getElementById("profileMenu");
+    if (!event.target.matches('#profileButton') && !profileMenu.contains(event.target)) {
+        profileMenu.classList.add("hidden");
+    }
+});
+
+      </script>
+      
+</body>
+
+</html>

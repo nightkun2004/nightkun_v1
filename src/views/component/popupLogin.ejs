@@ -1,0 +1,54 @@
+<!-- Popup Background (Overlay) -->
+<div id="authPopup" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex justify-center items-center h-full">
+        <!-- Popup Content -->
+        <div class="bg-white p-6 rounded-lg w-80">
+            <!-- tap -->
+            <div class="flex justify-center items-center gap-5 mb-5">
+                <p id="tapLogin" class="tab border-b-2 border-blue-400 cursor-pointer transition duration-300">เข้าสู่ระบบ</p>
+                <p id="tapRegister" class="tab cursor-pointer transition duration-300">สมัครสมาชิก</p>
+            </div>
+            <div class="formLogin" id="formLogin">
+                <h2 id="authTitle" class="text-xl font-semibold mb-4">เข้าสู่ระบบ</h2>
+                <!-- Form -->
+                <form id="authFormLogin" action="/api/v2/auth/login" method="POST">
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm text-gray-700">อีเมล</label>
+                        <input type="email" id="emailLogin" name="email" required class="w-full border px-3 py-2 rounded">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm text-gray-700">รหัสผ่าน</label>
+                        <input type="password" id="passwordLogin" name="password" required
+                            class="w-full border px-3 py-2 rounded">
+                    </div>
+                    <div class="flex justify-between">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">เข้าสู่ระบบ</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Register -->
+            <div class="formRegister hidden" id="formRegister">
+                <h2 id="authTitle" class="text-xl font-semibold mb-4">สมัครสมาชิก</h2>
+                <!-- Form -->
+                <form id="authFormRegister" action="/api/v2/auth/register" method="POST">
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm text-gray-700">อีเมล</label>
+                        <input type="email" id="emailRegister" name="email" required class="w-full border px-3 py-2 rounded">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm text-gray-700">รหัสผ่าน</label>
+                        <input type="password" id="passwordRegister" name="password" required
+                            class="w-full border px-3 py-2 rounded">
+                    </div>
+                    <div class="flex justify-between">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">สมัครสมาชิก</button>
+                    </div>
+                </form>
+            </div>
+
+            <button type="button" onclick="hideAuthPopup()"
+                class="text-white mt-5 p-2 rounded w-full bg-red-500 hover:underline">ปิด</button>
+        </div>
+    </div>
+</div>

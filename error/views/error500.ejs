@@ -1,0 +1,24 @@
+<section class="ss-1-error-500">
+    <div class="flex justify-center items-center max-w-6xl mx-auto w-full px-4">
+        <div class=" bg-white  p-8 rounded-lg w-full">
+            <div class="text-center">
+                <!-- Error Title -->
+                <h1 class="text-6xl font-bold text-red-600">500</h1>
+                <p class="text-2xl mt-4 text-gray-600">ขออภัย! เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์</p>
+            </div>
+
+            <!-- Error Details -->
+            <div class="mt-6 text-gray-800">
+                <p class="text-lg">รายละเอียดข้อผิดพลาด: <strong class="font-semibold text-gray-900">
+                        <%= error.message %>
+                    </strong></p>
+                <pre
+                    class="mt-2 bg-gray-100 p-4 rounded-md text-sm text-gray-600 font-mono overflow-x-auto"><%= error.stack %></pre>
+            </div>
+
+            <!-- Back to Home Button -->
+            <a href="/"
+                class="mt-6 inline-block bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition duration-300 text-lg font-semibold">กลับสู่หน้าหลัก</a>
+        </div>
+    </div>
+</section>

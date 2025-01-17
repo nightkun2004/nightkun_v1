@@ -1,0 +1,9 @@
+<!-- Sidebar -->
+<div id="sidebar" class="bg-white w-64 h-screen fixed top-0 left-0 pt-16 transition-transform transform lg:translate-x-0 -translate-x-full lg:block">
+    <nav class="mt-10 mb-5">
+        <a href="/" class="block py-2.5 px-4 hover:bg-gray-200 <%= active === 'home' ? 'bg-blue-500 text-white' : '' %>">หน้าหลัก</a>
+        <a href="/welcome" class="block py-2.5 px-4 hover:bg-gray-200 <%= active === 'welcome' ? 'bg-blue-500 text-white' : '' %>">ขอต้อนรับ</a>
+        <a href="#" class="block py-2.5 px-4 hover:bg-gray-200 <%= active === 'join' ? 'bg-blue-500 text-white' : '' %>">เข้าร่วม</a>
+    </nav>
+    <button id="loginButton" onclick="showAuthPopup()" class="bg-blue-500 text-white px-4 py-2 rounded m-5 w-[150px]">เข้าสู่ระบบ</button>
+</div>

@@ -1,0 +1,57 @@
+<header  class="bg-white text-black border-b-2 border-gray-100 sticky max-w-full top-0 w-full z-10">
+    <div class="content_header flex justify-between items-center py-2 px-6 z-50">
+        <!-- Left Header -->
+        <div class="flex items-center space-x-4">
+            <!-- Menu Toggle -->
+            <button id="menu-toggle" class="text-gray-700 focus:outline-none text-lg">
+                ☰
+            </button>
+            <!-- Logo -->
+            <div class="text-2xl font-bold text-blue-500">
+                <a href="/admin/control">Admin</a>
+            </div>
+        </div>
+    
+        <!-- Center Header -->
+        <div class="hidden md:flex items-center w-[400px]">
+            <div class="relative w-full">
+                <input type="text" placeholder="ค้นหา..." 
+                    class="w-full py-2 px-4 border rounded-l-lg rounded-r-full focus:outline-none bg-gray-100 text-sm">
+                <button 
+                    class="absolute right-0 bg-blue-500 text-white px-5 py-2 rounded-r-full hover:bg-blue-600 text-sm">
+                    ค้นหา
+                </button>
+            </div>
+        </div>
+    
+        <!-- Right Header -->
+        <div class="flex items-center space-x-6">
+            <!-- Notification Icon -->
+            <button class="relative text-gray-700 focus:outline-none hover:text-blue-500">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z"
+                        stroke="#000000" stroke-width="2" stroke-linejoin="round" />
+                </svg>
+            </button>
+    
+            <div class="relative group">
+                <!-- User Avatar -->
+                <div class="profiel-header w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 cursor-pointer">
+                    <span class="font-bold">U</span>
+                </div>
+                
+                <!-- User Menu (Hidden by default) -->
+                <div class="absolute right-1 transform hidden group-hover:block w-64 p-4 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
+                    <ul class="text-gray-700">
+                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-lg">จัดการผู้ใช้</li>
+                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-lg">Settings</li>
+                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-lg">Logout</li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+</header>

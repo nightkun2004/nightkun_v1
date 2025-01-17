@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <meta name="description"
+        content="ขอต้อนรับสู่เว็บของผมเอง เว็บนี้จะมีกิจกรรมอื่นและเนื้อหาวีดีโอที่อยู่บน YouTube จะมาลงที่นี่ด้วยครับ ฝากติดตามด้วยนะครับ ">
+    <meta name="keywords" content="Nightkun, nightkun, เว็บ, แจกอั่งเปา, truemoney, wallet, 2024, เนื้อหาYT">
+    <link rel="shortcut icon" href="/profilehome.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800 h-screen flex flex-col">
+    <!-- Header -->
+    <%- include('../partials/header') %>
+
+    <!-- Main Layout -->
+    <main class="flex-1 flex overflow-hidden">
+        <!-- Aside -->
+        <aside id="sidebar"
+            class="bg-white w-0 md:w-[250px] h-full border-r border-gray-200 shadow-sm overflow-hidden transition-all duration-300 z-50">
+            <%- include('../partials/aside') %>
+        </aside>
+
+        <!-- Content Body -->
+        <div class="flex-1 overflow-auto bg-white shadow-sm p-0 ml-0 transition-all duration-300">
+            <%- include(content) %>
+        </div>
+    </main>
+
+    <!-- Popup -->
+     <%- include('../auth/register') %>
+
+    <script src="/js/home.js"></script>
+</body>
+
+</html>

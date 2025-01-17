@@ -1,0 +1,134 @@
+<section class="upload py-10 px-6 max-w-2xl mx-auto">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">อัปโหลดวิดีโอ</h2>
+
+    <form id="uploadForm" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">ชื่อวิดีโอ</label>
+            <input type="text" id="title" required class="mt-1 block w-full p-2 border rounded-md">
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">คำอธิบาย</label>
+            <textarea id="description" rows="3" class="mt-1 block w-full p-2 border rounded-md"></textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">เลือกวิดีโอ</label>
+            <input type="file" id="videoFile" accept="video/*" required class="mt-1 block w-full p-2 border rounded-md">
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progressContainer" class="hidden">
+            <div class="w-full bg-gray-300 h-2 rounded-md">
+                <div id="progressBar" class="bg-blue-500 h-2 rounded-md" style="width: 0%;"></div>
+            </div>
+            <p id="progressText" class="text-sm text-gray-600 mt-1">0%</p>
+            <span class="text-red-500">*** หลักจากรอ 100% รอปุ่มเปลี่ยนเป็นเผยแพ่สีเขียวก่อน ห้ามกดปุ่มอัปโหลดซํ้า</span>
+        </div>
+
+        <button type="button" id="uploadButton" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
+            อัปโหลดวิดีโอ
+        </button>
+
+        <button type="button" id="publishButton"
+            class="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 hidden">
+            เผยแพร่วิดีโอ
+        </button>
+    </form>
+</section>
+
+<!-- Modal สำหรับแสดงข้อความ -->
+<div id="messageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white p-6 rounded-md shadow-lg text-center">
+        <p id="modalMessage" class="text-gray-800"></p>
+        <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">ตกลง</button>
+    </div>
+</div>
+
+<script>
+    function showModal(message) {
+        document.getElementById("modalMessage").textContent = message;
+        document.getElementById("messageModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+        document.getElementById("messageModal").classList.add("hidden");
+    }
+
+    document.getElementById("uploadButton").addEventListener("click", async () => {
+        const fileInput = document.getElementById("videoFile");
+        const file = fileInput.files[0];
+
+        if (!file) {
+            showModal("กรุณาเลือกไฟล์วิดีโอก่อน");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("video", file);
+
+        document.getElementById("progressContainer").classList.remove("hidden");
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/v2/upload-video", true);
+
+        xhr.upload.onprogress = (event) => {
+            if (event.lengthComputable) {
+                const percent = Math.round((event.loaded / event.total) * 100);
+                document.getElementById("progressBar").style.width = percent + "%";
+                document.getElementById("progressText").textContent = percent + "%";
+            }
+        };
+
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                showModal("อัปโหลดเสร็จสิ้น!");
+
+                document.getElementById("publishButton").classList.remove("hidden");
+                document.getElementById("uploadButton").classList.add("hidden");
+
+                document.getElementById("publishButton").onclick = async () => {
+                    const title = document.getElementById("title").value;
+                    const description = document.getElementById("description").value;
+                    const token = localStorage.getItem("authToken");
+
+                    const publishResponse = await fetch("/api/v2/publish-video", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}` // ✅ ส่ง Token ไปใน Headers
+                        },
+                        body: JSON.stringify({
+                            title,
+                            description,
+                            videoUrl: response.videoUrl,
+                            videoId: response.videoID,
+                            thumbnailUrl: response.thumbnailUrl,
+                        })
+                    });
+
+                    if (!publishResponse.ok) {
+                        showModal("เผยแพร่วิดีโอไม่สำเร็จ");
+                        return;
+                    }
+
+
+                    showModal("วิดีโอเผยแพร่แล้ว!");
+
+                    // ✅ ล้างค่าฟอร์ม
+                    title.value = "";
+                    description.value = "";
+                    fileInput.value = "";
+
+                    // ✅ ซ่อนปุ่ม Publish
+                    document.getElementById("publishButton").classList.add("hidden");
+                };
+            } else {
+                showModal("เกิดข้อผิดพลาดในการอัปโหลด");
+            }
+        };
+
+        xhr.send(formData);
+    });
+</script>

@@ -1,0 +1,74 @@
+<section class="Happening max-w-4xl mx-auto flex flex-col md:flex-row gap-4 mt-5">
+    <!-- Main Content -->
+    <div class="w-full md:w-2/3 bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-4 border-b">
+            <h2 class="text-2xl font-bold">📢 เกิดขึ้นตอนนี้ (Happening Now)</h2>
+            <p class="text-gray-600">ติดตามเหตุการณ์และกระแสล่าสุด</p>
+        </div>
+        
+        <!-- Post Input (Fixed on Scroll) -->
+        <div class="p-4 border-b bg-white sticky top-20 z-10">
+            <h3 class="text-lg font-semibold">✍🏻 โพสต์สิ่งที่คุณคิด</h3>
+            <textarea class="w-full p-2 border rounded-lg mt-2 outline-none" placeholder="คุณกำลังคิดอะไรอยู่?"></textarea>
+            
+            <!-- Media Upload Options -->
+            <div class="mt-2 flex space-x-2">
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="radio" name="mediaType" value="image" class="hidden">
+                    <span class="px-4 py-2 bg-gray-200 rounded-full">📷 รูปภาพ</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="radio" name="mediaType" value="video" class="hidden">
+                    <span class="px-4 py-2 bg-gray-200 rounded-full">🎥 วิดีโอ</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="radio" name="mediaType" value="audio" class="hidden">
+                    <span class="px-4 py-2 bg-gray-200 rounded-full">🎵 เสียง</span>
+                </label>
+            </div>
+            
+            <input type="file" class="w-full mt-2 hidden" id="mediaUpload">
+            
+            <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-full">โพสต์</button>
+        </div>
+        
+        <!-- Live Posts -->
+        <div class="p-4">
+            <h3 class="text-lg font-semibold">📝 อัปเดตล่าสุด</h3>
+            <div class="mt-4 space-y-4">
+                <div class="p-3 bg-gray-100 rounded-lg">
+                    <p><strong>@TechNews</strong>: AI รุ่นใหม่เปิดตัวแล้ว! 🚀</p>
+                    <img src="image-url.jpg" alt="AI Update" class="w-full mt-2 rounded-lg">
+                    <span class="text-gray-500 text-sm">5 นาทีที่แล้ว</span>
+                </div>
+                <div class="p-3 bg-gray-100 rounded-lg">
+                    <p><strong>@SportsWorld</strong>: ทีมชาติไทยคว้าแชมป์! 🏆</p>
+                    <video class="w-full mt-2 rounded-lg" controls>
+                        <source src="video-url.mp4" type="video/mp4">
+                    </video>
+                    <span class="text-gray-500 text-sm">10 นาทีที่แล้ว</span>
+                </div>
+                <div class="p-3 bg-gray-100 rounded-lg">
+                    <p><strong>@BreakingNews</strong>: เกิดเหตุการณ์สำคัญที่กรุงเทพ 🚨</p>
+                    <audio class="w-full mt-2" controls>
+                        <source src="audio-url.mp3" type="audio/mpeg">
+                    </audio>
+                    <span class="text-gray-500 text-sm">15 นาทีที่แล้ว</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trending Topics (Hidden on Mobile) -->
+    <div class="w-full md:w-1/3 bg-white shadow-md rounded-lg overflow-hidden hidden md:block">
+        <div class="p-4 border-b">
+            <h3 class="text-lg font-semibold">🔥 เทรนด์มาแรง</h3>
+            <ul class="mt-2 space-y-2">
+                <li class="p-2 bg-gray-100 rounded-lg">#ดราม่าล่าสุด</li>
+                <li class="p-2 bg-gray-100 rounded-lg">#AIมาแรง</li>
+                <li class="p-2 bg-gray-100 rounded-lg">#ฟุตบอลวันนี้</li>
+                <li class="p-2 bg-gray-100 rounded-lg">#ข่าวด่วน</li>
+            </ul>
+        </div>
+    </div>
+</section>

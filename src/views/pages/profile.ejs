@@ -1,0 +1,43 @@
+<section class="profile max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+    <!-- Cover Photo -->
+    <div class="h-48 bg-blue-500 relative">
+        <img class="w-full h-full object-cover" src="<%= user.coverphoto %>" alt="Cover Photo">
+    </div>
+    <!-- Profile Info -->
+    <div class="p-4 relative">
+        <img class="w-24 h-24 rounded-full border-4 border-white -mt-12" src="<%= user.profilepic %>"
+            alt="รูปโปรไฟล์ของ <%= user.username %>">
+
+        <div class="mt-2">
+            <h2 class="text-xl font-bold">
+                <%= user.username %>
+            </h2>
+            <p class="text-gray-600">@<%= user.username %>
+            </p>
+        </div>
+
+        <p class="mt-2 text-gray-700">Web Developer | Tech Enthusiast | Content Creator</p>
+
+        <div class="flex items-center space-x-4 mt-2">
+            <span class="text-gray-600"><strong>500</strong> Following</span>
+            <span class="text-gray-600"><strong>1.2K</strong> Followers</span>
+        </div>
+
+        <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-full">Follow</button>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="border-t p-4">
+        <h3 class="text-lg font-semibold">Tweets</h3>
+        <div class="mt-4 space-y-4">
+            <div class="p-3 bg-gray-100 rounded-lg">
+                <p>Just launched my new website! 🚀 Check it out at johndoe.dev</p>
+                <span class="text-gray-500 text-sm">2 hours ago</span>
+            </div>
+            <div class="p-3 bg-gray-100 rounded-lg">
+                <p>Excited for the new JavaScript framework updates! 🔥</p>
+                <span class="text-gray-500 text-sm">1 day ago</span>
+            </div>
+        </div>
+    </div>
+</section>

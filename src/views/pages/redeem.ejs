@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รับอั่งเปาฟรี</title>
+    <meta name="description" content="ขอต้อนรับสู่เว็บของผมเอง เว็บนี้จะมีกิจกรรมอื่นและเนื้อหาวีดีโอที่อยู่บน YouTube จะมาลงที่นี่ด้วยครับ ฝากติดตามด้วยนะครับ ">
+    <meta name="keywords" content="Nightkun, nightkun, เว็บ, แจกอั่งเปา, truemoney, wallet, 2024, เนื้อหาYT">
+    <link rel="shortcut icon" href="/profilehome.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <%- include('../component/header') %>
+    <%- include('../component/sidebar') %>
+    <div id="layout-content" class="lg:ml-64 pt-16 p-4 transition-all">
+      <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center mb-6">ยินดีตอนรับสู่แอปรับโค้ดอั่งเปา</h1>
+        <span class="font-semibold">โปรดทราบกรองโค้ดด้านล่างเพื่อรับอั่งเปา</span>
+        <div class="mt-8 bg-white rounded p-3">
+          <form id="redeemForm">
+            <label for="code" class="block mb-2">รหัสโค้ด</label>
+            <input type="text" id="inputcode" class="w-full border-gray-100 border-2 px-4 py-2 rounded-lg outline-none"
+              placeholder="โปรดใส่รหัสโค้ดเพื่อรับอั่งเปา">
+    
+            <div class="flex justify-center mt-5">
+              <button type="button" id="redeemButton"
+                class="bg-orange-500 text-white hover:bg-orange-800 rounded-lg px-2 w-[250px] py-2">รับอั่งเปา</button>
+            </div>
+          </form>
+        </div>
+    
+        <div id="ad-container" class="hidden mt-4">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"
+            data-ad-format="video"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+    
+          <!-- แสดงเวลา -->
+          <div class="mt-4 text-center">
+            <p>โฆษณาจะสิ้นสุดใน <span id="countdown">15</span> วินาที</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const toggleMenuButton = document.getElementById('toggleMenu');
+      const sidebar = document.getElementById('sidebar');
+      const layoutContent = document.getElementById('layout-content');
+    
+      toggleMenuButton.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+        layoutContent.classList.toggle('lg:ml-0');
+      });
+    </script>
+    <script>
+        document.getElementById('redeemButton').addEventListener('click', function() {
+          // แสดงโฆษณา
+          document.getElementById('ad-container').classList.remove('hidden');
+      
+          // เริ่มการนับถอยหลัง 15 วินาที
+          let countdown = 15;
+          const countdownElement = document.getElementById('countdown');
+      
+          const countdownInterval = setInterval(function() {
+            countdown--;
+            countdownElement.textContent = countdown;
+      
+            // เมื่อเวลาหมด
+            if (countdown <= 0) {
+              clearInterval(countdownInterval);
+              // ส่งฟอร์มแลกรับ
+              document.getElementById('redeemForm').submit();
+            }
+          }, 1000); // อัปเดตทุกๆ 1 วินาที (1000 มิลลิวินาที)
+        });
+      </script>
+</body>
+</html>
