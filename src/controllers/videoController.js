@@ -1,5 +1,6 @@
 const User = require("../../models/userModel")
 const Video = require("../../models/videoModel")
+const jwt = require("jsonwebtoken")
 const multer = require("multer")
 require("dotenv").config
 
@@ -76,7 +77,7 @@ const refreshVideoToken = async (req, res) => {
             success: true,
             newToken,
             newExpires,
-            newUrl: `https://sv8.nightkun.com/api/v2/server/stream/${videoId}?tk=${newToken}&expires=${newExpires}`
+            newUrl: `${process.env.URLSERVERSTORAGE}/api/v2/server/stream/${videoId}?tk=${newToken}&expires=${newExpires}`
         });
 
     } catch (error) {

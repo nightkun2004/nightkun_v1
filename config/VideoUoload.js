@@ -8,7 +8,7 @@ const UploadToServer = async (req, res) => {
             return res.status(400).json({ error: "กรุณาเลือกไฟล์วิดีโอ" });
         }
 
-        const videoUrl = "https://sv8.nightkun.com/api/v2/server/upload";
+        const videoUrl = `${process.env.URLSERVERSTORAGE}/api/v2/server/upload`;
         const videoFile = req.files.video;
 
         const formData = new FormData();
@@ -33,7 +33,7 @@ const UploadToServer = async (req, res) => {
         // ✅ ส่ง URL วิดีโอกลับไปให้ Client
         res.json({
             success: true,
-            videoUrl: `https://sv8.nightkun.com/api/v2/server/stream/${videoId}?tk=${token}&expires=${expires}`,
+            videoUrl: `${process.env.URLSERVERSTORAGE}/api/v2/server/stream/${videoId}?tk=${token}&expires=${expires}`,
             videoID: videoId
         });
 
